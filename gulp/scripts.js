@@ -4,16 +4,23 @@ var gulp = require('gulp');
 
 var paths = gulp.paths;
 
-var $ = require('gulp-load-plugins')();
+var $ = require('gulp-load-plugins')({
+  pattern: ['gulp-*', 'del']
+});
 
 gulp.task('scripts', function () {
-  return gulp.src(paths.src + '/{app,components}/**/*.ts')
+  return gulp.src(paths.src + '/*.ts')
     .pipe($.typescript())
     .on('error', function handleError(err) {
       console.error(err.toString());
       this.emit('end');
     })
-    .pipe(gulp.dest(paths.tmp + '/serve/'))
-    .pipe($.size())
+    .pipe($.concat('hawkular-rest-service.js'))
+    .pipe(gulp.dest(paths.dist + '/'));
 });
 
+gulp.task('clean', function (done) {
+  $.del([paths.dist + '/', paths.tmp + '/'], done);
+});
+
+gulp.task('build', ['scripts']);

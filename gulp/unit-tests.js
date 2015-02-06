@@ -8,7 +8,7 @@ var wiredep = require('wiredep');
 
 var paths = gulp.paths;
 
-function runTests (singleRun, done) {
+function runTests (singleRun) {
   var bowerDeps = wiredep({
     directory: 'bower_components',
     exclude: ['bootstrap-sass-official'],
@@ -17,10 +17,8 @@ function runTests (singleRun, done) {
   });
 
   var testFiles = bowerDeps.js.concat([
-    paths.tmp + '/serve/{app,components}/**/!(index).js',
-    paths.tmp + '/serve/{app,components}/**/index.js',
-    paths.src + '/{app,components}/**/*.spec.js',
-    paths.src + '/{app,components}/**/*.mock.js'
+    paths.src + '/*.spec.js',
+    paths.dist + '/*.js'
   ]);
 
   gulp.src(testFiles)
@@ -35,7 +33,7 @@ function runTests (singleRun, done) {
     });
 }
 
-function runTestsRest (singleRun, done) {
+function runTestsRest (singleRun) {
   var bowerDeps = wiredep({
     directory: 'bower_components',
     exclude: ['bootstrap-sass-official'],
@@ -44,10 +42,8 @@ function runTestsRest (singleRun, done) {
   });
 
   var testFiles = bowerDeps.js.concat([
-    paths.tmp + '/serve/{app,components}/**/!(index).js',
-    paths.tmp + '/serve/{app,components}/**/index.js',
-    paths.src + '/{app,components}/**/*.spec.rest.js',
-    paths.src + '/{app,components}/**/*.mock.js'
+    paths.src + '/*.spec.rest.js',
+    paths.dist + '/*.js'
   ]);
 
   gulp.src(testFiles)
